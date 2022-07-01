@@ -1,23 +1,17 @@
-
 const express = require('express');
+
+const routes = express.Router();
+
 const fs = require('fs');
-
-const app = express();
-
-app.use(express.json());
 
 let db = [];
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
-
-app.get('/todos', (req, res) => {
+routes.get('/todos', (req, res) => {
     db = JSON.parse(fs.readFileSync('./db.json'));
     res.json(db);
 });
 
-app.post('/todo', (req, res) => {
+routes.post('/todo', (req, res) => {
     //const { id, tarefa } = req.body;
     try {
     const data = fs.readFileSync('./db.json', 'utf8');
@@ -38,7 +32,7 @@ app.post('/todo', (req, res) => {
     }
   });
 
-app.delete('/todo/:id', (req, res) => {
+routes.delete('/todo/:id', (req, res) => {
 const { id } = req.params;
 db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
 db.find((item, index) => {
@@ -49,3 +43,19 @@ db.find((item, index) => {
         return res.json(db);
     }})
 });
+
+routes.put('/todo/:id', (req, res) => {
+    const { id } = req.params;
+    const { tarefa } = req.body;
+    db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
+    db.find((item, index) => {
+        if (item.id == id) {
+            db[index].tarefa = tarefa;
+            fs.writeFileSync('./db.json', JSON.stringify(db));
+            return res.json(db);
+        }
+    }
+    )
+});
+
+module.exports = routes;
