@@ -17,10 +17,11 @@ function Task(props) {
 
     const salva = async (id) => {
         const input = document.getElementById('input-' + id);
-        const check = document.getElementById('check-' + id);      
+        const check = document.getElementById('check-' + id); 
+        console.log(check);     
         var data = JSON.stringify({
             "tarefa": input.value,
-            "check": check.value
+            "check": check.checked
         });
         console.log(data);
         var config = {
@@ -41,14 +42,19 @@ function Task(props) {
             })
     }
 
+    const actionTarefaStyle = {
+        backgroundColor: "white", 
+        border: "0px"
+    }
+
     return (
         <div>
             {props.data && (
                 <div className='task-container'>
-                    <input type='checkbox' id={'check-' + props.data.id} value={props.data.check}></input>
-                    <input id={'input-' + props.data.id} defaultValue={props.data.tarefa}></input>
-                    <button onClick={() => remove(props.data.id)} id={props.data.id} className='btn-x'><span>❌</span></button>
-                    <button onClick={() => salva(props.data.id)} id={props.data.id} className='btn-edit'><span>✔️</span></button>
+                    <input type='checkbox' id={'check-' + props.data.id} defaultChecked={props.data.check}></input>
+                    <input className='input-tarefa' id={'input-' + props.data.id} defaultValue={props.data.tarefa}></input>
+                    <button style={actionTarefaStyle} onClick={() => remove(props.data.id)} id={props.data.id} className='btn-x'><span>❌</span></button>
+                    <button style={actionTarefaStyle} onClick={() => salva(props.data.id)} id={props.data.id} className='btn-edit'><span>✔️</span></button>
                 </div>
 
             )}
