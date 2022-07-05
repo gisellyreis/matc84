@@ -47,13 +47,11 @@ routes.delete('/todo/:id', (req, res) => {
 
 routes.put('/todo/:id', (req, res) => {
     const { id } = req.params;
-    const { tarefa } = req.body.tarefa;
-    const { check } = req.body.check;
     db = JSON.parse(fs.readFileSync('./db.json', 'utf8'));
     db.find((item, index) => {
         if (item.id == id) {
-            db[index].tarefa = tarefa;
-            db[index].check = check;
+            db[index].tarefa = req.body.tarefa;
+            db[index].check = req.body.check;
             fs.writeFileSync('./db.json', JSON.stringify(db));
             return res.json(db);
         }

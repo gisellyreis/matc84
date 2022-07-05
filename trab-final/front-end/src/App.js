@@ -50,10 +50,11 @@ function App() {
 
   return (
     <div className="App">
+      <header><h1>To-do list!</h1></header>
       <div className="tasks" > 
         {tasks.length > 0 ? tasks.map((e, i) => <Task data={e} key={e.id} />) : ''}
       </div>
-      <button onClick={newTask}>Incluir Tarefa</button>
+      <button id='newTask' onClick={newTask}>Incluir Tarefa</button>
     </div>
   );
 }
